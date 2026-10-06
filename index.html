@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0d1015" id="themeColorMeta">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('oshiglass.theme')==='light'?'light':'dark'}catch{document.documentElement.dataset.theme='dark'}</script>
+<title>OSHIGLASS — 推し砂時計</title>
+<meta name="description" content="好きな色・形・文字を砂にして、1種類または2種類を混ぜて遊べるブラウザ砂時計。音とダーク／ライト表示にも対応。">
+<meta property="og:title" content="OSHIGLASS — 推し砂時計">
+<meta property="og:description" content="色・形・文字を砂にして、好きな組み合わせをひっくり返して眺めるブラウザ砂時計。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=1.0.0">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><svg class="brand-mark" viewBox="0 0 24 32" aria-hidden="true"><path d="M3 2h18M3 30h18M5 3c0 8 7 8 7 13S5 21 5 29M19 3c0 8-7 8-7 13s7 5 7 13"/></svg><div class="brand-name">OSHI<span>GLASS</span></div></div>
+    <div class="theme-switch" role="group" aria-label="画面テーマ">
+      <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="true">DARK</button>
+      <button type="button" class="theme-option" data-theme-choice="light" aria-pressed="false">LIGHT</button>
+    </div>
+  </header>
+  <main>
+    <section class="controls" aria-label="砂時計の設定">
+      <div class="setting color-setting">
+        <div class="setting-header"><span class="setting-label"><span class="setting-num">01</span>砂の構成</span><span class="micro">SAND SETUP</span></div>
+        <div class="mode-switch" role="group" aria-label="砂の種類数">
+          <button class="mode-option" data-color-mode="single" aria-pressed="true">1種類</button>
+          <button class="mode-option" data-color-mode="mix" aria-pressed="false">2種類</button>
+        </div>
+
+        <div class="sand-card sand-card-a">
+          <div class="sand-card-head"><span class="sand-name" id="sandALabel">砂</span><span class="channel-chip channel-a" aria-hidden="true"></span></div>
+          <div class="sand-field-label">色</div>
+          <div class="color-line" role="group" aria-label="砂Aの色">
+            <button class="swatch" style="--swatch:#edb969" data-channel="a" data-color="#edb969" aria-label="アンバー" aria-pressed="true"></button>
+            <button class="swatch" style="--swatch:#ec829e" data-channel="a" data-color="#ec829e" aria-label="ローズ" aria-pressed="false"></button>
+            <button class="swatch" style="--swatch:#8bb9ed" data-channel="a" data-color="#8bb9ed" aria-label="ブルー" aria-pressed="false"></button>
+            <button class="swatch" style="--swatch:#a997e7" data-channel="a" data-color="#a997e7" aria-label="ラベンダー" aria-pressed="false"></button>
+            <button class="swatch" style="--swatch:#80c5a7" data-channel="a" data-color="#80c5a7" aria-label="ミント" aria-pressed="false"></button>
+            <span class="color-divider" aria-hidden="true"></span>
+            <label class="custom-color" title="好きな色を選ぶ"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 3 5 5M4 12l8-8 4 4-8 8-5 1zM3 17l-1 1"/></svg><input type="color" id="colorPickerA" value="#edb969" aria-label="砂Aの色を自由に選ぶ"></label>
+            <label class="hex-field" for="hexColorA"><span>HEX</span><input id="hexColorA" type="text" value="#EDB969" inputmode="text" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="砂AのHEXカラーコード"></label>
+          </div>
+          <div class="sand-field-label shape-field-label">かたち</div>
+          <div class="shape-group" role="group" aria-label="砂Aの粒子の形">
+            <button class="shape" data-channel="a" data-shape="circle" aria-pressed="true"><span class="shape-symbol" aria-hidden="true">●</span>丸</button>
+            <button class="shape" data-channel="a" data-shape="star" aria-pressed="false"><span class="shape-symbol" aria-hidden="true">✦</span>星</button>
+            <button class="shape" data-channel="a" data-shape="text" aria-pressed="false"><span class="shape-symbol" aria-hidden="true">Aa</span>文字</button>
+          </div>
+          <div class="text-row" id="textRowA" hidden><label for="particleTextA">文字・記号<small>最大10文字</small></label><input id="particleTextA" type="text" value="推し" autocomplete="off" spellcheck="false" aria-label="砂Aの文字・記号（最大10文字）"></div>
+          <p class="text-help" id="textHelpA" hidden>入力した文字が、それぞれ別の粒になります。</p>
+        </div>
+
+        <div class="mix-panel" id="mixPanel" hidden>
+          <div class="sand-card sand-card-b">
+            <div class="sand-card-head"><span class="sand-name">砂 B</span><span class="channel-chip channel-b" aria-hidden="true"></span></div>
+            <div class="sand-field-label">色</div>
+            <div class="color-line" role="group" aria-label="砂Bの色">
+              <button class="swatch" style="--swatch:#edb969" data-channel="b" data-color="#edb969" aria-label="アンバー" aria-pressed="false"></button>
+              <button class="swatch" style="--swatch:#ec829e" data-channel="b" data-color="#ec829e" aria-label="ローズ" aria-pressed="false"></button>
+              <button class="swatch" style="--swatch:#8bb9ed" data-channel="b" data-color="#8bb9ed" aria-label="ブルー" aria-pressed="true"></button>
+              <button class="swatch" style="--swatch:#a997e7" data-channel="b" data-color="#a997e7" aria-label="ラベンダー" aria-pressed="false"></button>
+              <button class="swatch" style="--swatch:#80c5a7" data-channel="b" data-color="#80c5a7" aria-label="ミント" aria-pressed="false"></button>
+              <span class="color-divider" aria-hidden="true"></span>
+              <label class="custom-color" title="好きな色を選ぶ"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 3 5 5M4 12l8-8 4 4-8 8-5 1zM3 17l-1 1"/></svg><input type="color" id="colorPickerB" value="#8bb9ed" aria-label="砂Bの色を自由に選ぶ"></label>
+              <label class="hex-field" for="hexColorB"><span>HEX</span><input id="hexColorB" type="text" value="#8BB9ED" inputmode="text" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="砂BのHEXカラーコード"></label>
+            </div>
+            <div class="sand-field-label shape-field-label">かたち</div>
+            <div class="shape-group" role="group" aria-label="砂Bの粒子の形">
+              <button class="shape" data-channel="b" data-shape="circle" aria-pressed="false"><span class="shape-symbol" aria-hidden="true">●</span>丸</button>
+              <button class="shape" data-channel="b" data-shape="star" aria-pressed="true"><span class="shape-symbol" aria-hidden="true">✦</span>星</button>
+              <button class="shape" data-channel="b" data-shape="text" aria-pressed="false"><span class="shape-symbol" aria-hidden="true">Aa</span>文字</button>
+            </div>
+            <div class="text-row" id="textRowB" hidden><label for="particleTextB">文字・記号<small>最大10文字</small></label><input id="particleTextB" type="text" value="★" autocomplete="off" spellcheck="false" aria-label="砂Bの文字・記号（最大10文字）"></div>
+            <p class="text-help" id="textHelpB" hidden>入力した文字が、それぞれ別の粒になります。</p>
+          </div>
+          <div class="ratio-control">
+            <div class="ratio-heading"><label for="mixRatio">配合</label><output id="ratioValue" for="mixRatio"><b>A 50</b><span>:</span><b>50 B</b></output></div>
+            <input id="mixRatio" type="range" min="0" max="100" value="50" step="1" aria-label="砂Aと砂Bの配合比率">
+            <div class="ratio-ends"><span>A</span><span>B</span></div>
+          </div>
+          <div class="layout-control">
+            <div class="layout-heading">初期配置</div>
+            <div class="layout-group" role="group" aria-label="砂Aと砂Bの初期配置">
+              <button class="mix-layout" data-layout="mixed" aria-pressed="true"><span class="layout-icon layout-mixed" aria-hidden="true"></span><span>混合</span></button>
+              <button class="mix-layout" data-layout="leftRight" aria-pressed="false"><span class="layout-icon layout-left-right" aria-hidden="true"></span><span>左右</span></button>
+              <button class="mix-layout" data-layout="topBottom" aria-pressed="false"><span class="layout-icon layout-top-bottom" aria-hidden="true"></span><span>上下</span></button>
+              <button class="mix-layout" data-layout="stripes3" aria-pressed="false"><span class="layout-icon layout-stripes" aria-hidden="true"></span><span>3層</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-header"><span class="setting-label"><span class="setting-num">02</span>粒のサイズ</span><span class="micro">GRAIN SIZE</span></div>
+        <div class="size-control size-only"><div class="size-heading"><label for="grainSize">共通サイズ</label><output id="sizeValue" for="grainSize">45</output></div><input type="range" id="grainSize" min="1" max="100" value="45" step="1" aria-label="粒のサイズ"><div class="size-labels"><span>細かい砂</span><span>大きな粒</span></div></div>
+      </div>
+      <div class="setting">
+        <div class="setting-header"><span class="setting-label"><span class="setting-num">03</span>時間</span><span class="micro">TAKE YOUR TIME</span></div>
+        <div class="time-editor">
+          <div class="time-input"><input id="minutes" type="number" min="0" max="60" step="1" inputmode="numeric" value="0"><label for="minutes">分</label></div>
+          <span class="time-colon" aria-hidden="true">:</span>
+          <div class="time-input"><input id="seconds" type="number" min="0" max="59" step="1" inputmode="numeric" value="30"><label for="seconds">秒</label></div>
+        </div>
+        <div class="presets" role="group" aria-label="時間のプリセット">
+          <button class="preset" data-duration="10" aria-pressed="false">10秒</button><button class="preset" data-duration="30" aria-pressed="true">30秒</button><button class="preset" data-duration="180" aria-pressed="false">3分</button><button class="preset" data-duration="300" aria-pressed="false">5分</button>
+        </div>
+        <p class="time-hint" id="timeHint">10秒〜60分 · 1秒単位で設定できます</p>
+      </div>
+    </section>
+    <section class="exhibit" id="exhibit" data-state="idle" aria-label="砂時計">
+      <div class="exhibit-head"><span class="material">CLEAR GLASS / WARM METAL</span><span class="status"><span class="status-dot"></span><span id="statusText" role="status" aria-live="polite">準備できました</span></span></div>
+      <div class="hourglass-wrap"><canvas id="glass" width="1000" height="1340" role="img" aria-label="推しカラーの粒が上から下へ落ちて積もる砂時計。下部に粒が溜まった状態です。">Canvasに対応したブラウザでご利用ください。</canvas><div class="complete-glow" id="completeGlow"></div></div>
+      <div class="countdown"><div class="clock-line"><output class="clock" id="clock" aria-label="残り時間">00:30</output><span class="clock-label" id="clockLabel">残り</span></div><div class="progress" role="progressbar" id="progress" aria-label="砂時計の進み具合" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div></div>
+      <div class="actions">
+        <button class="primary" id="startButton"><span class="action-symbol" id="actionSymbol" aria-hidden="true">▶</span><span id="actionLabel">反転してスタート</span></button>
+        <button class="reset" id="resetButton"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8a7 7 0 1 1 1 7M3 3v5h5"/></svg>リセット</button>
+        <button class="sound-toggle" id="soundButton" type="button" aria-pressed="true" aria-label="音をオフにする" title="音をオン / オフ">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="speaker-body" d="M4 10v4h4l5 4V6L8 10H4Z"/><path class="speaker-wave" d="M16 9c1 .9 1.5 1.9 1.5 3S17 14.1 16 15M18.5 6.5c1.8 1.6 2.7 3.4 2.7 5.5s-.9 3.9-2.7 5.5"/><path class="speaker-slash" d="M5 5l14 14"/></svg>
+        </button>
+      </div>
+      <div class="sound-style-control" id="soundStyleControl">
+        <span class="sound-style-label">音の質感</span>
+        <div class="sound-style-options" role="group" aria-label="砂の音の質感">
+          <button type="button" class="sound-style-option" data-sound-style="soft" aria-pressed="true">さらさら</button>
+          <button type="button" class="sound-style-option" data-sound-style="hard" aria-pressed="false">ガラス粒</button>
+        </div>
+      </div>
+      <p class="under-actions">色は途中でも変更できます。形・サイズの変更はリセット後に反映されます。</p>
+    </section>
+  </main>
+  <footer><span>OSHIGLASS <span aria-hidden="true">/</span> v1.0.0</span></footer>
+</div>
+<noscript>砂時計を動かすには、ブラウザのJavaScriptを有効にしてください。</noscript>
+<script src="app.js?v=1.0.0"></script>
+</body>
+</html>
